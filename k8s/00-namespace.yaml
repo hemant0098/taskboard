@@ -1,7 +1,0 @@
-# Module 3: one namespace keeps every TaskBoard object together
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: taskboard
-  labels:
-    app.kubernetes.io/part-of: taskboard
