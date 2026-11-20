@@ -17,6 +17,23 @@ spec:
     spec:
       containers:
       - name: backend
-        image: hemantdevgang/taskboard-backend:v1.0
+        image: hemantdevgan/taskboard-backend:v1.0
         ports:
         - containerPort: 5000
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-service
+  namespace: taskboard
+spec:
+  selector:
+    matchLabels:
+      app: backend
+  ports:
+    - protocol: TCP
+      port: 5000
+      targetPort: 5000
+      nodePort: 30001
+  type: NodePort
