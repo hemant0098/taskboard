@@ -29,8 +29,7 @@ metadata:
   namespace: taskboard
 spec:
   selector:
-    matchLabels:
-      app: backend
+    app: backend
   ports:
     - protocol: TCP
       port: 5000
