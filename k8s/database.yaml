@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: taskboard-mysql
+  namespace: taskboard
+  labels:
+    app: taskboard-mysql
+spec:
+  serviceName: "taskboard-mysql"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: taskboard-mysql
+  template:
+    metadata:
+      labels:
+        app: taskboard-mysql
+    spec:
+      containers:
+      - name: taskboard-mysql
+        image: mysql:5.7
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: secret
+              key: MYSQL_ROOT_PASSWORD
+        - name: MYSQL_DATABASE
+          value: taskboard
+
+        - name: MYSQL_USER
+          value: taskboarduser
+          
+        ports:
+        - containerPort: 3306
+          name: mysql
+        volumeMounts:
+        - name: mysql-persistent-storage
+          mountPath: /var/lib/mysql
+  volumeClaimTemplates:
+  - metadata:
+      name: mysql-persistent-storage
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 1Gi
